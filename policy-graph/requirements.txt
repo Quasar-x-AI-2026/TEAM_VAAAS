@@ -1,0 +1,9 @@
+langchain-community
+pypdf
+langchain-text-splitters
+sentence-transformers
+faiss-cpu
+neo4j
+pydantic
+requests
+numpy
