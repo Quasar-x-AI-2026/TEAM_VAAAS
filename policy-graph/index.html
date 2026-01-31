@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stitch | Policy Simulator</title>
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.26.0/cytoscape.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Loader -->
+    <div class="loader-overlay" id="loader">
+        <div class="spinner"></div>
+        <div class="loader-text">WEAVING DATA THREADS...</div>
+    </div>
+
+    <!-- MAIN LANDING VIEW -->
+    <div class="hero-container" id="heroSection">
+        <div class="brand-header">
+            <div class="logo-icon">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <h1 class="brand-title">Stitch</h1>
+        </div>
+
+        <p class="brand-subtitle">
+            The Policy Ripple Effect Simulator.<br>
+            Predict secondary and long-term impacts with causal AI.
+        </p>
+
+        <!-- Centered Input Area -->
+        <div class="input-area-large">
+            <form class="search-wrapper-large" id="simForm">
+                <button type="button" class="action-btn-large" onclick="document.getElementById('fileInput').click()"
+                    title="Upload Context">
+                    <i class="fa-solid fa-paperclip"></i>
+                </button>
+                <input type="file" id="fileInput" class="hidden" onchange="handleFileSelect(this)">
+
+                <div class="input-stack">
+                    <span id="fileBadge" class="file-badge hidden"></span>
+                    <input type="text" name="query" id="queryInput" class="search-input-large"
+                        placeholder="What policy impact would you like to simulate?" autocomplete="off">
+                </div>
+
+                <button type="submit" class="send-btn-large">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- RESULTS VIEW (Initially Hidden) -->
+    <div class="results-container" id="resultsSection">
+        <div class="results-header">
+            <div class="header-left">
+                <div class="header-logo"><i class="fa-solid fa-layer-group"></i> Stitch</div>
+            </div>
+            <div class="header-right">
+                <button class="back-btn" onclick="resetView()">New Simulation</button>
+            </div>
+        </div>
+
+        <!-- Agents Reports (Agent-Centric View) -->
+        <div class="result-title"><i class="fa-solid fa-message"></i> Agent Consensus & Logic Chains</div>
+        <div class="agents-section" id="agentsGrid">
+            <!-- Filled by JS -->
+        </div>
+
+
+
+    </div>
+
+    <!-- Chat Sidebar -->
+    <div id="chatSidebar" class="chat-sidebar">
+        <div class="chat-header">
+            <h3><i class="fa-solid fa-comments"></i> Stitch Assistant</h3>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-message bot">
+                Hello! I am ready to discuss the simulation results. Ask me anything about the graphs or reports.
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Ask a follow-up question..." autocomplete="off">
+            <button onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
