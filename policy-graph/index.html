@@ -1,104 +1,318 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stitch | Policy Simulator</title>
-
-    <!-- Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.26.0/cytoscape.min.js"></script>
+    <title>Policy Impact Simulator - AI-Powered Policy Analysis</title>
+    <meta name="description" content="Advanced AI-powered system for simulating and analyzing policy changes with causal modeling.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Marked.js for Markdown -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
-
+    
+    <!-- Cytoscape for Graphs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.26.0/cytoscape.min.js"></script>
+    
     <!-- Custom Styles -->
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
-    <!-- Loader -->
-    <div class="loader-overlay" id="loader">
-        <div class="spinner"></div>
-        <div class="loader-text">WEAVING DATA THREADS...</div>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="bg-blob bg-blob-1"></div>
+        <div class="bg-blob bg-blob-2"></div>
     </div>
 
-    <!-- MAIN LANDING VIEW -->
-    <div class="hero-container" id="heroSection">
-        <div class="brand-header">
-            <div class="logo-icon">
-                <i class="fa-solid fa-layer-group"></i>
+    <!-- Hamburger Menu Button -->
+    <button id="hamburgerBtn" class="hamburger-btn" aria-label="Toggle menu">
+        <i data-lucide="menu" class="icon"></i>
+    </button>
+
+    <!-- Sidebar Backdrop -->
+    <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar">
+        <!-- Header -->
+        <div class="sidebar-header">
+            <div class="brand">
+                <div class="brand-icon-wrapper">
+                    <i data-lucide="sparkles" class="brand-icon"></i>
+                    <div class="brand-glow"></div>
+                </div>
+                <div>
+                    <h1 class="brand-title">Policy AI</h1>
+                    <p class="brand-subtitle">Intelligent Analysis</p>
+                </div>
             </div>
-            <h1 class="brand-title">Stitch</h1>
+
+            <button id="newChatBtn" class="new-chat-btn">
+                <i data-lucide="plus"></i>
+                <span>New Simulation</span>
+            </button>
         </div>
 
-        <p class="brand-subtitle">
-            The Policy Ripple Effect Simulator.<br>
-            Predict secondary and long-term impacts with causal AI.
-        </p>
+        <!-- Conversations List -->
+        <div class="sidebar-content">
+            <div class="conversations-header">
+                <i data-lucide="history"></i>
+                <span>Recent Simulations</span>
+            </div>
+            <div id="conversationsList" class="conversations-list">
+                <!-- Conversations will be inserted here -->
+            </div>
+        </div>
 
-        <!-- Centered Input Area -->
-        <div class="input-area-large">
-            <form class="search-wrapper-large" id="simForm">
-                <button type="button" class="action-btn-large" onclick="document.getElementById('fileInput').click()"
-                    title="Upload Context">
-                    <i class="fa-solid fa-paperclip"></i>
-                </button>
-                <input type="file" id="fileInput" class="hidden" onchange="handleFileSelect(this)">
+        <!-- Footer -->
+        <div class="sidebar-footer">
+            <button id="themeToggle" class="sidebar-footer-btn">
+                <i data-lucide="moon" id="themeIcon"></i>
+                <span id="themeText">Light Mode</span>
+            </button>
+            <button class="sidebar-footer-btn">
+                <i data-lucide="settings"></i>
+                <span>Settings</span>
+            </button>
+        </div>
+    </aside>
 
-                <div class="input-stack">
-                    <span id="fileBadge" class="file-badge hidden"></span>
-                    <input type="text" name="query" id="queryInput" class="search-input-large"
-                        placeholder="What policy impact would you like to simulate?" autocomplete="off">
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="welcome-screen">
+            <div class="welcome-content">
+                <!-- Logo -->
+                <div class="welcome-logo">
+                    <div class="logo-glow"></div>
+                    <i data-lucide="sparkles" class="logo-icon"></i>
                 </div>
 
-                <button type="submit" class="send-btn-large">
-                    <i class="fa-solid fa-arrow-right"></i>
+                <!-- Title -->
+                <h1 class="welcome-title">Policy Impact Simulator</h1>
+                <p class="welcome-subtitle">
+                    Analyze policies using AI-powered causal modeling to predict secondary and long-term impacts before implementation
+                </p>
+
+                <!-- Example Prompts -->
+                <div class="example-prompts">
+                    <div class="example-card" data-prompt="Analyze the impact of free higher education on employment rates">
+                        <span class="example-icon">🎓</span>
+                        <div>
+                            <h3>Education Policy</h3>
+                            <p>Analyze the impact of free higher education on employment rates</p>
+                        </div>
+                    </div>
+                    <div class="example-card" data-prompt="Simulate universal healthcare implementation effects">
+                        <span class="example-icon">🏥</span>
+                        <div>
+                            <h3>Healthcare Reform</h3>
+                            <p>Simulate universal healthcare implementation effects</p>
+                        </div>
+                    </div>
+                    <div class="example-card" data-prompt="Predict outcomes of minimum wage increase">
+                        <span class="example-icon">💰</span>
+                        <div>
+                            <h3>Economic Policy</h3>
+                            <p>Predict outcomes of minimum wage increase</p>
+                        </div>
+                    </div>
+                    <div class="example-card" data-prompt="Model carbon tax impact on industries">
+                        <span class="example-icon">🌱</span>
+                        <div>
+                            <h3>Environmental</h3>
+                            <p>Model carbon tax impact on industries</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Policy Grid -->
+            <div class="policy-grid-section">
+                <div class="policy-grid-header">
+                    <h2>Explore Policy Categories</h2>
+                    <p>Select a category to get started with AI-powered analysis</p>
+                </div>
+                <div class="policy-grid">
+                    <div class="policy-card">
+                        <div class="policy-icon-wrapper">
+                            <i data-lucide="graduation-cap"></i>
+                        </div>
+                        <h3>Education</h3>
+                        <p>Analyze educational reforms and their long-term societal impact</p>
+                    </div>
+                    <div class="policy-card">
+                        <div class="policy-icon-wrapper">
+                            <i data-lucide="heart"></i>
+                        </div>
+                        <h3>Healthcare</h3>
+                        <p>Model healthcare policy effects on population health outcomes</p>
+                    </div>
+                    <div class="policy-card">
+                        <div class="policy-icon-wrapper">
+                            <i data-lucide="trending-up"></i>
+                        </div>
+                        <h3>Economic</h3>
+                        <p>Predict economic policy impacts on growth and employment</p>
+                    </div>
+                    <div class="policy-card">
+                        <div class="policy-icon-wrapper">
+                            <i data-lucide="leaf"></i>
+                        </div>
+                        <h3>Environmental</h3>
+                        <p>Simulate environmental regulations and sustainability effects</p>
+                    </div>
+                    <div class="policy-card">
+                        <div class="policy-icon-wrapper">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <h3>Social</h3>
+                        <p>Evaluate social programs and community welfare initiatives</p>
+                    </div>
+                    <div class="policy-card">
+                        <div class="policy-icon-wrapper">
+                            <i data-lucide="building-2"></i>
+                        </div>
+                        <h3>Infrastructure</h3>
+                        <p>Assess infrastructure investments and urban development</p>
+                    </div>
+                    <div class="policy-card">
+                        <div class="policy-icon-wrapper">
+                            <i data-lucide="scale"></i>
+                        </div>
+                        <h3>Legal</h3>
+                        <p>Analyze regulatory changes and legal framework updates</p>
+                    </div>
+                    <div class="policy-card">
+                        <div class="policy-icon-wrapper">
+                            <i data-lucide="zap"></i>
+                        </div>
+                        <h3>Technology</h3>
+                        <p>Evaluate tech policy impacts on innovation and privacy</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="resultsScreen" class="results-screen hidden">
+            <!-- Results Header -->
+            <div class="results-header">
+                <div class="results-title-section">
+                    <h2 class="results-title">
+                        <i data-lucide="activity"></i>
+                        <span>Simulation Results</span>
+                    </h2>
+                    <p class="results-subtitle">AI-powered multi-agent analysis with causal modeling</p>
+                </div>
+                <button id="newSimulationBtn" class="new-simulation-btn">
+                    <i data-lucide="refresh-cw"></i>
+                    <span>New Simulation</span>
+                </button>
+            </div>
+
+            <!-- Results Content -->
+            <div id="resultsContainer" class="results-container">
+                <!-- Agent reports will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="input-area">
+            <div class="input-container">
+                <!-- File Attachments -->
+                <div id="fileAttachments" class="file-attachments hidden"></div>
+
+                <!-- Input Form -->
+                <form id="chatForm" class="chat-form">
+                    <div id="inputWrapper" class="input-wrapper">
+                        <textarea 
+                            id="messageInput" 
+                            placeholder="Ask about policy impacts, upload documents for analysis..."
+                            rows="1"
+                        ></textarea>
+
+                        <div class="input-actions">
+                            <input type="file" id="fileInput" accept=".pdf,.txt" multiple hidden>
+                            <button type="button" id="fileBtn" class="action-btn">
+                                <i data-lucide="paperclip"></i>
+                            </button>
+                            <button type="submit" id="sendBtn" class="send-btn">
+                                <i data-lucide="send"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <p class="input-hint">
+                    AI-powered policy simulation • Upload PDFs or text files for analysis
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Floating Chat Button -->
+    <button id="floatingChatBtn" class="floating-chat-btn hidden">
+        <i data-lucide="message-circle"></i>
+    </button>
+
+    <!-- Chat Assistant Sidebar -->
+    <aside id="chatSidebar" class="chat-sidebar">
+        <div class="chat-sidebar-header">
+            <div class="chat-sidebar-title">
+                <i data-lucide="bot"></i>
+                <div>
+                    <h3>AI Assistant</h3>
+                    <p>Ask about simulation results</p>
+                </div>
+            </div>
+            <button id="closeChatBtn" class="close-chat-btn">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+
+        <div id="chatMessagesContainer" class="chat-messages-container">
+            <div class="chat-message bot">
+                <div class="chat-avatar bot">
+                    <i data-lucide="bot"></i>
+                </div>
+                <div class="chat-bubble bot">
+                    Hello! I'm ready to discuss the simulation results. Ask me anything about the analysis, graphs, or reports.
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-input-wrapper">
+            <form id="chatAssistantForm" class="chat-assistant-form">
+                <input 
+                    type="text" 
+                    id="chatAssistantInput" 
+                    placeholder="Ask a follow-up question..."
+                    autocomplete="off"
+                >
+                <button type="submit" class="chat-send-btn">
+                    <i data-lucide="send"></i>
                 </button>
             </form>
         </div>
-    </div>
+    </aside>
 
-    <!-- RESULTS VIEW (Initially Hidden) -->
-    <div class="results-container" id="resultsSection">
-        <div class="results-header">
-            <div class="header-left">
-                <div class="header-logo"><i class="fa-solid fa-layer-group"></i> Stitch</div>
-            </div>
-            <div class="header-right">
-                <button class="back-btn" onclick="resetView()">New Simulation</button>
-            </div>
-        </div>
-
-        <!-- Agents Reports (Agent-Centric View) -->
-        <div class="result-title"><i class="fa-solid fa-message"></i> Agent Consensus & Logic Chains</div>
-        <div class="agents-section" id="agentsGrid">
-            <!-- Filled by JS -->
-        </div>
-
-
-
-    </div>
-
-    <!-- Chat Sidebar -->
-    <div id="chatSidebar" class="chat-sidebar">
-        <div class="chat-header">
-            <h3><i class="fa-solid fa-comments"></i> Stitch Assistant</h3>
-        </div>
-        <div class="chat-messages" id="chatMessages">
-            <div class="chat-message bot">
-                Hello! I am ready to discuss the simulation results. Ask me anything about the graphs or reports.
-            </div>
-        </div>
-        <div class="chat-input-area">
-            <input type="text" id="chatInput" placeholder="Ask a follow-up question..." autocomplete="off">
-            <button onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Analyzing policy impacts...</p>
+            <p class="loading-subtext">Running multi-agent simulation</p>
         </div>
     </div>
 
+    <!-- Scripts -->
     <script src="script.js"></script>
 </body>
-
 </html>
