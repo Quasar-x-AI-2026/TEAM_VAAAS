@@ -1,22 +1,39 @@
-fastapi
-uvicorn
-python-multipart
-torch
-sentence-transformers
-faiss-cpu
-econml
-scikit-learn
-pandas
-numpy
-pickle5
-neo4j
-langchain
-langchain-community
-textblob
-duckduckgo-search
-ollama
-matplotlib
-seaborn
-pdf2image
-pytesseract
-pillow
+# Core Web Framework
+fastapi>=0.95.0
+uvicorn>=0.22.0
+python-multipart>=0.0.6
+
+# AI & Machine Learning
+torch>=2.0.0
+sentence-transformers>=2.2.2
+ollama>=0.1.0
+faiss-cpu>=1.7.4  # Use faiss-gpu if you have a supported NVIDIA GPU on Linux
+
+# Data Processing & Graph DB
+neo4j>=5.10.0
+pandas>=2.0.0
+numpy>=1.24.0
+scikit-learn>=1.3.0
+econml>=0.14.0
+
+# LangChain & PDF Parsing
+langchain>=0.0.300
+langchain-community>=0.0.10
+langchain-text-splitters>=0.0.1
+pypdf>=3.16.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Web Search & NLP
+duckduckgo-search>=3.8.0
+textblob>=0.17.1
+
+# OCR & Image Processing (Optional but imported)
+Pillow>=10.0.0
+pytesseract>=0.3.10
+pdf2image>=1.16.3
+
+
+
